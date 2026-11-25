@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diff Review Forge</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">DR</span>
+    <div class="brand-text">
+      <h1>Diff Review Forge</h1>
+      <p>Paste a unified diff. Get a scored review, the evidence behind every finding and a fix plan.</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <span id="engine-badge" class="badge">loading engine...</span>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="panel input-panel">
+    <div class="panel-head">
+      <h2>Diff under review</h2>
+      <div class="field">
+        <label for="profile">Profile</label>
+        <select id="profile"></select>
+      </div>
+    </div>
+    <p id="profile-blurb" class="blurb"></p>
+    <textarea id="diff-input" spellcheck="false"
+      placeholder="Paste the output of git diff, git show, or a pull request patch here..."></textarea>
+    <div class="panel-foot">
+      <button id="review-btn" class="primary">Review this diff</button>
+      <button id="clear-btn" class="ghost">Clear</button>
+      <span id="input-stats" class="muted"></span>
+    </div>
+    <div class="samples">
+      <h3>Built-in samples</h3>
+      <div id="sample-list" class="sample-grid"></div>
+    </div>
+  </section>
+
+  <section class="panel result-panel">
+    <div id="empty-state" class="empty">
+      <h2>No review yet</h2>
+      <p>Paste a diff on the left, or load one of the samples, then hit Review.</p>
+      <ul class="empty-list">
+        <li>Scores the diff out of 100 across five axes</li>
+        <li>Shows the exact line behind every finding, why it matters and the fix</li>
+        <li>Caps the score when a change skips the hard part (no tests, a leaked secret)</li>
+        <li>Ranks the fixes by the score each one buys back</li>
+      </ul>
+    </div>
+
+    <div id="results" hidden>
+      <div id="verdict-banner" class="verdict"></div>
+      <div id="summary-text" class="summary"></div>
+      <div id="axis-bars" class="axes"></div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="findings">Findings</button>
+        <button class="tab" data-tab="files">Files and risk</button>
+        <button class="tab" data-tab="plan">Fix plan</button>
+        <button class="tab" data-tab="coverage">Coverage</button>
+        <button class="tab" data-tab="runs">Run log</button>
+      </nav>
+
+      <div class="tab-body">
+        <div id="tab-findings" class="tab-panel active"></div>
+        <div id="tab-files" class="tab-panel"></div>
+        <div id="tab-plan" class="tab-panel"></div>
+        <div id="tab-coverage" class="tab-panel"></div>
+        <div id="tab-runs" class="tab-panel"></div>
+      </div>
+
+      <div class="export-bar">
+        <span class="muted">Export</span>
+        <button class="ghost small" data-export="md">Markdown</button>
+        <button class="ghost small" data-export="json">JSON</button>
+        <button class="ghost small" data-export="csv">CSV</button>
+        <span class="spacer"></span>
+        <input id="run-title" type="text" placeholder="Save this review as..." />
+        <select id="run-rating">
+          <option value="">no rating</option>
+          <option value="1">1 star</option>
+          <option value="2">2 stars</option>
+          <option value="3">3 stars</option>
+          <option value="4">4 stars</option>
+          <option value="5">5 stars</option>
+        </select>
+        <button id="save-run" class="primary small">Save run</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
